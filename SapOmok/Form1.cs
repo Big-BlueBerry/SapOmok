@@ -17,8 +17,6 @@ namespace SapOmok
         private int hwa = 10;
         private Pen pen;
         private Brush Bbrush, Wbrush;
-        public Stone color = Stone.White;
-        public Stone[,] board = new Stone[100, 100];
 
         public Form1()
         {
@@ -26,13 +24,6 @@ namespace SapOmok
             pen = new Pen(Color.Black);
             Wbrush = new SolidBrush(Color.White);
             Bbrush = new SolidBrush(Color.Black);
-        }
-
-        public enum Stone
-        {
-            None,
-            Black,
-            White
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -45,7 +36,7 @@ namespace SapOmok
         {
             Graphics g = panel1.CreateGraphics();
             for (int i = 0; i < 50; i++)//세로
-                g.DrawLine(pen, 0, 10 * i * DSize / 3, 1000, 10 * i * DSize / 3); 
+                g.DrawLine(pen, 0, 10 * i * DSize / 3, 1000, 10 * i * DSize / 3);
             for (int i = 0; i < 50; i++)//가로
                 g.DrawLine(pen, 10 * i * DSize / 3, 0, 10 * i * DSize / 3, 1000 + 10 * DSize);
             OnDrawHwa(g);
@@ -68,132 +59,12 @@ namespace SapOmok
         private void panel1_MouseDown(object sender, MouseEventArgs e)
         {
             int x, y;
-            x = e.X / (10 * DSize / 3);
-            y = e.Y / (10 * DSize / 3);
+            x = e.X / DSize;
+            y = e.Y / DSize;
 
-            IsOutside(x, y);
-        }
-
-        //확인
-        public bool IsOutside(int x, int y)
-        {
-            SetStone(x, y);
-            return x < 0 || y < 0 || x >= board.Length || y >= board.GetLength(1);
-        }
-
-        //돌 놓기
-        public bool SetStone(int x, int y)
-        {
-            int width = 0, height = 0, diagl = 0, diagr = 0;
-
-            Graphics d = panel1.CreateGraphics();
-            Rectangle r = new Rectangle(10 + DSize * (x/10) - stoneSize / 2, 10 + DSize * (y/10) - stoneSize / 2, stoneSize, stoneSize);
-
-            if (board[x, y] != Stone.None)
-            {
-                return false;
-            }
-
-            board[x, y] = color;
-
-            // 왼쪽
-            for (int i = 1; true; i++)
-            {
-                if (IsOutside(x, y - i) || board[x, y - i] != color)
-                {
-                    width += i - 1;
-                    break;
-                }
-            }
-
-            // 오른쪽
-            for (int i = 1; true; i++)
-            {
-                if (IsOutside(x, y + i) || board[x, y + i] != color)
-                {
-                    width += i - 1;
-                    break;
-                }
-            }
-
-            //위
-            for (int i = 1; true; i++)
-            {
-                if (IsOutside(x + i, y) || board[x + i, y] != color)
-                {
-                    height += i - 1;
-                    break;
-                }
-            }
-
-            //아래
-            for (int i = 1; true; i++)
-            {
-                if (IsOutside(x - i, y) || board[x - i, y] != color)
-                {
-                    height += i - 1;
-                    break;
-                }
-            }
-
-            //제2사분면 대각선
-            for (int i = 1; true; i++)
-            {
-                if (IsOutside(x + i, y - i) || board[x + i, y - i] != color)
-                {
-                    diagr += i - 1;
-                    break;
-                }
-            }
-
-            //제3사분면 대각선
-            for (int i = 1; true; i++)
-            {
-                if (IsOutside(x - i, y - i) || board[x - i, y - i] != color)
-                {
-                    diagl += i - 1;
-                    break;
-                }
-            }
-
-            //제1사분면 대각선
-            for (int i = 1; true; i++)
-            {
-                if (IsOutside(x + i, y + i) || board[x + i, y + i] != color)
-                {
-                    diagr += i - 1;
-                    break;
-                }
-            }
-
-            //제4사분면 대각선
-            for (int i = 1; true; i++)
-            {
-                if (IsOutside(x - i, y + i) || board[x - i, y + i] != color)
-                {
-                    diagl += i - 1;
-                    break;
-                }
-            }
-
-            if (color == Stone.Black)
-            {                
-                color = Stone.White;
-            }
-
-            else
-            {
-                color = Stone.Black;
-            }
-
-            if (color == Stone.Black)
-            {
-                d.FillEllipse(Bbrush, r);
-            }
-            else
-                d.FillEllipse(Wbrush, r);
-
-            return width >= 4 || height >= 4 || diagl >= 4 || diagr >= 4;
+            Omok omok = new Omok();
+            omok.SetStone(x, y, out bool c);
+            
         }
     }
 }
