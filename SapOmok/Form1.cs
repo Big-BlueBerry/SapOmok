@@ -18,7 +18,7 @@ namespace SapOmok
         private Pen pen;
         private Brush Bbrush, Wbrush;
         public Stone color = Stone.White;
-        public Stone[,] board = new Stone[10, 10];
+        public Stone[,] board = new Stone[100, 100];
 
         public Form1()
         {
@@ -45,7 +45,7 @@ namespace SapOmok
         {
             Graphics g = panel1.CreateGraphics();
             for (int i = 0; i < 50; i++)//세로
-                g.DrawLine(pen, 0, 10 * i * DSize / 3, 1000, 10 * i * DSize / 3);
+                g.DrawLine(pen, 0, 10 * i * DSize / 3, 1000, 10 * i * DSize / 3); 
             for (int i = 0; i < 50; i++)//가로
                 g.DrawLine(pen, 10 * i * DSize / 3, 0, 10 * i * DSize / 3, 1000 + 10 * DSize);
             OnDrawHwa(g);
@@ -68,30 +68,31 @@ namespace SapOmok
         private void panel1_MouseDown(object sender, MouseEventArgs e)
         {
             int x, y;
-            x = e.X;
-            y = e.Y;
-            SetStone(x, y, out bool c);
+            x = e.X / (10 * DSize / 3);
+            y = e.Y / (10 * DSize / 3);
+
+            IsOutside(x, y);
         }
 
         //확인
         public bool IsOutside(int x, int y)
         {
+            SetStone(x, y);
             return x < 0 || y < 0 || x >= board.Length || y >= board.GetLength(1);
         }
 
         //돌 놓기
-        public bool SetStone(int x, int y, out bool cannot)
+        public bool SetStone(int x, int y)
         {
             int width = 0, height = 0, diagl = 0, diagr = 0;
 
             Graphics d = panel1.CreateGraphics();
-            Rectangle r = new Rectangle(10 + DSize * x - stoneSize / 2, 10 + DSize * y - stoneSize / 2, stoneSize, stoneSize);
+            Rectangle r = new Rectangle(10 + DSize * (x/10) - stoneSize / 2, 10 + DSize * (y/10) - stoneSize / 2, stoneSize, stoneSize);
 
             if (board[x, y] != Stone.None)
             {
-                cannot = true; return false;
+                return false;
             }
-            cannot = false;
 
             board[x, y] = color;
 
