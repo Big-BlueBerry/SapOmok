@@ -1,4 +1,4 @@
-﻿using Omok;
+﻿using OOmok;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,12 +15,12 @@ namespace SapOmok
     {
         public Stone color = Stone.White;
 
-        public Stone[,] board = new Stone[10, 10];
+        public Stone[,] board = new Stone[100, 100];
 
         public bool IsOutside(int x, int y)
         {
             return x < 0 || y < 0 || x >= board.Length || y >= board.GetLength(1);
-        }
+        }       
         
         /// <summary>
         /// 하스스톤 말고 셋스톤~~
@@ -119,8 +119,10 @@ namespace SapOmok
             }
 
 
-            if (color == Stone.Black) color = Stone.White;
-            else color = Stone.Black;
+            if (color == Stone.Black)
+                color = Stone.White;
+            else
+                color = Stone.Black;
 
             return width >= 4 || height >= 4 || diagl >= 4 || diagr >= 4;
         }
