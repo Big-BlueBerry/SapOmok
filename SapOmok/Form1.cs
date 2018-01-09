@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using OOmok;
+using SapOmok;
 
 namespace SapOmok
 {
@@ -45,19 +46,13 @@ namespace SapOmok
         //마우스 입력받기
         private void panel1_MouseDown(object sender, MouseEventArgs e)
         {
-            Graphics g = panel1.CreateGraphics();
+            Graphics g = panel1.CreateGraphics();          
             int x, y;
             x = e.X / DSize;
             y = e.Y / DSize;
 
-            omok.SetStone(x, y, out bool c);
+            omok.SetStone(x, y,out bool c);
             DrawStone(g,x,y);
-
-            //if ()
-            //{
-            //    IsWin();
-            //}
-
         }
 
         //돌그리기
@@ -69,12 +64,6 @@ namespace SapOmok
                 g.FillEllipse(Bbrush, r);
             else
                 g.FillEllipse(Wbrush, r);
-        }
-
-        private void IsWin()
-        {
-            MessageBox.Show(omok.color + "win~!~!~");
-            Application.Restart();
         }
     }
 }

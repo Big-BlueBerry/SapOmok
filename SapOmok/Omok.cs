@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SapOmok;
 
 namespace SapOmok
 {
@@ -118,13 +119,23 @@ namespace SapOmok
                 }
             }
 
-
             if (color == Stone.Black)
                 color = Stone.White;
             else
                 color = Stone.Black;
 
-            return width >= 4 || height >= 4 || diagl >= 4 || diagr >= 4;
+            if (width >= 4 || height >= 4 || diagl >= 4 || diagr >= 4)
+            {
+                IsWin();
+            }
+
+            return true;
+        }
+
+        public void IsWin()
+        {
+            MessageBox.Show("\"" + color + "\"" + "win~!~!~");
+            Application.Restart();
         }
     }
 }
