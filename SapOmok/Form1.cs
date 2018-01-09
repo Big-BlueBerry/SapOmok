@@ -13,9 +13,8 @@ namespace SapOmok
 {
     public partial class Form1 : Form
     {
-        private int stoneSize = 30;
+        private int stoneSize = 28;
         private int DSize = 30;
-        private int hwa = 15;
         private Pen pen;
         private Brush Bbrush, Wbrush;
         public Omok omok = new Omok();
@@ -38,23 +37,9 @@ namespace SapOmok
         {
             Graphics g = panel1.CreateGraphics();
             for (int i = 0; i < 50; i++)//가로
-                g.DrawLine(pen, 0, 1.2f * i * DSize, 1000, 1.2f * i * DSize);
+                g.DrawLine(pen, 0,  i * DSize, 1000,  i * DSize);
             for (int i = 0; i < 50; i++)//세로
-                g.DrawLine(pen, 1.2f * i * DSize, 0, 1.2f * i * DSize, 1000 + 10 * DSize);
-            OnDrawHwa(g);
-        }
-   
-        //점찍기
-        private void OnDrawHwa(Graphics g)
-        {
-            //for (int i = 3; i <= 50; i += 5)
-            //{
-            //    for (int j = 3; j <= 50; j += 5)
-            //    {
-            //        Rectangle r = new Rectangle(2 + DSize * i - hwa/3, 7 + DSize * j - hwa/5, hwa, hwa);
-            //        g.FillEllipse(Bbrush, r);
-            //    }
-            //}
+                g.DrawLine(pen, i * DSize, 0, i * DSize, 1000 + 10 * DSize);
         }
 
         //마우스 입력받기
@@ -78,7 +63,7 @@ namespace SapOmok
         //돌그리기
         private void DrawStone(Graphics g, int x, int y)
         {
-            Rectangle r = new Rectangle(10 + DSize * x - stoneSize / 2, 10 + DSize * y - stoneSize / 2, stoneSize, stoneSize);
+            Rectangle r = new Rectangle(15 + DSize * x - stoneSize / 2, 15 + DSize * y - stoneSize / 2, stoneSize, stoneSize);
 
             if (omok.color == Stone.Black)
                 g.FillEllipse(Bbrush, r);
