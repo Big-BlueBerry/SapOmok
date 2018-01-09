@@ -13,9 +13,9 @@ namespace SapOmok
 {
     public partial class Form1 : Form
     {
-        private int stoneSize = 25;
-        private int DSize = 10;
-        private int hwa = 10;
+        private int stoneSize = 30;
+        private int DSize = 30;
+        private int hwa = 15;
         private Pen pen;
         private Brush Bbrush, Wbrush;
         public Omok omok = new Omok();
@@ -37,24 +37,24 @@ namespace SapOmok
         private void OnDraw()
         {
             Graphics g = panel1.CreateGraphics();
-            for (int i = 0; i < 50; i++)//세로
-                g.DrawLine(pen, 0, 10 * i * DSize / 3, 1000, 10 * i * DSize / 3);
             for (int i = 0; i < 50; i++)//가로
-                g.DrawLine(pen, 10 * i * DSize / 3, 0, 10 * i * DSize / 3, 1000 + 10 * DSize);
+                g.DrawLine(pen, 0, 1.2f * i * DSize, 1000, 1.2f * i * DSize);
+            for (int i = 0; i < 50; i++)//세로
+                g.DrawLine(pen, 1.2f * i * DSize, 0, 1.2f * i * DSize, 1000 + 10 * DSize);
             OnDrawHwa(g);
         }
-
+   
         //점찍기
         private void OnDrawHwa(Graphics g)
         {
-            for (int i = 3; i <= 50; i += 10)
-            {
-                for (int j = 3; j <= 50; j += 10)
-                {
-                    Rectangle r = new Rectangle(1 + DSize * i - hwa / 3, 2 + DSize * j - hwa / 3, hwa, hwa);
-                    g.FillEllipse(Bbrush, r);
-                }
-            }
+            //for (int i = 3; i <= 50; i += 5)
+            //{
+            //    for (int j = 3; j <= 50; j += 5)
+            //    {
+            //        Rectangle r = new Rectangle(2 + DSize * i - hwa/3, 7 + DSize * j - hwa/5, hwa, hwa);
+            //        g.FillEllipse(Bbrush, r);
+            //    }
+            //}
         }
 
         //마우스 입력받기
@@ -67,8 +67,15 @@ namespace SapOmok
 
             omok.SetStone(x, y, out bool c);
             DrawStone(g,x,y);
+
+            //if ()
+            //{
+            //    IsWin();
+            //}
+
         }
 
+        //돌그리기
         private void DrawStone(Graphics g, int x, int y)
         {
             Rectangle r = new Rectangle(10 + DSize * x - stoneSize / 2, 10 + DSize * y - stoneSize / 2, stoneSize, stoneSize);
@@ -77,7 +84,12 @@ namespace SapOmok
                 g.FillEllipse(Bbrush, r);
             else
                 g.FillEllipse(Wbrush, r);
+        }
 
+        private void IsWin()
+        {
+            MessageBox.Show(omok.color + "win~!~!~");
+            Application.Restart();
         }
     }
 }
