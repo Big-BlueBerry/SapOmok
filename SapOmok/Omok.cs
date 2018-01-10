@@ -16,7 +16,7 @@ namespace SapOmok
     {
         public Stone color = Stone.White;
 
-        public Stone[,] board = new Stone[100, 100];
+        public Stone[,] board = new Stone[13, 13];
 
         public bool IsOutside(int x, int y)
         {
@@ -119,22 +119,22 @@ namespace SapOmok
                 }
             }
 
-            if (color == Stone.Black)
-                color = Stone.White;
-            else
-                color = Stone.Black;
-
             if (width >= 4 || height >= 4 || diagl >= 4 || diagr >= 4)
             {
                 IsWin();
             }
+
+            if (color == Stone.Black)
+                color = Stone.White;
+            else
+                color = Stone.Black;
 
             return true;
         }
 
         public void IsWin()
         {
-            MessageBox.Show("\"" + color + "\"" + "win~!~!~");
+            MessageBox.Show("추카추카~!!~!\"" + color + "\"WIN~!~!!","호고고곡 게임이 끝나 부럿눼~!!");
             Application.Restart();
         }
     }

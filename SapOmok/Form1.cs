@@ -30,6 +30,8 @@ namespace SapOmok
 
         protected override void OnPaint(PaintEventArgs e)
         {
+
+            ShowWhoTurn();
             OnDraw();
         }
 
@@ -38,9 +40,10 @@ namespace SapOmok
         {
             Graphics g = panel1.CreateGraphics();
             for (int i = 0; i < 50; i++)//가로
-                g.DrawLine(pen, 0,  i * DSize, 1000,  i * DSize);
-            for (int i = 0; i < 50; i++)//세로
+                g.DrawLine(pen, 0,  i * DSize, 420,  i * DSize);
+            for (int i = 0; i < 15; i++)//세로
                 g.DrawLine(pen, i * DSize, 0, i * DSize, 1000 + 10 * DSize);
+            ShowWhoTurn();
         }
 
         //마우스 입력받기
@@ -51,8 +54,9 @@ namespace SapOmok
             x = e.X / DSize;
             y = e.Y / DSize;
 
+            DrawStone(g, x, y);
             omok.SetStone(x, y,out bool c);
-            DrawStone(g,x,y);
+            ShowWhoTurn();
         }
 
         //돌그리기
@@ -60,10 +64,16 @@ namespace SapOmok
         {
             Rectangle r = new Rectangle(15 + DSize * x - stoneSize / 2, 15 + DSize * y - stoneSize / 2, stoneSize, stoneSize);
 
-            if (omok.color == Stone.Black)
-                g.FillEllipse(Bbrush, r);
-            else
+            if (omok.color == Stone.White)
                 g.FillEllipse(Wbrush, r);
+            else
+                g.FillEllipse(Bbrush, r);
+        }
+
+        //현재 차례 표시
+        private void ShowWhoTurn()
+        {
+            label1.Text = ("현재 차례\n" + omok.color);
         }
     }
 }
