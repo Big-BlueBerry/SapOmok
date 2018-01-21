@@ -84,9 +84,13 @@ namespace SapOmok
             Graphics g = panel1.CreateGraphics();
 
             DrawStone(g, 5, 6);
+            omok.color = Stone.Black;
             DrawStone(g, 6, 6);
+            omok.color = Stone.White;
             DrawStone(g, 5, 5);
+            omok.color = Stone.Black;
             DrawStone(g, 6, 5);
+            omok.color = Stone.White;
         }
     }
 }
