@@ -18,7 +18,8 @@ namespace SapOmok
         private int DSize = 30;
         private Pen pen;
         private Brush Bbrush, Wbrush;
-        public Omok omok = new Omok();
+        //public Omok omok = new Omok();
+        public Odelo omok = new Odelo();
 
         public Form1()
         {
@@ -30,10 +31,10 @@ namespace SapOmok
 
         protected override void OnPaint(PaintEventArgs e)
         {
-
             ShowWhoTurn();
             OnDraw();
-        }
+            FirstShow();
+        }      
 
         //선 그리기
         private void OnDraw()
@@ -54,6 +55,7 @@ namespace SapOmok
             x = e.X / DSize;
             y = e.Y / DSize;
 
+            FirstShow();
             DrawStone(g, x, y);
             omok.SetStone(x, y,out bool c);
             ShowWhoTurn();
@@ -74,6 +76,17 @@ namespace SapOmok
         private void ShowWhoTurn()
         {
             label1.Text = ("현재 차례\n" + omok.color);
+        }
+
+        //오델로용 첨뜨는 돌 4개
+        public void FirstShow()
+        {
+            Graphics g = panel1.CreateGraphics();
+
+            DrawStone(g, 5, 6);
+            DrawStone(g, 6, 6);
+            DrawStone(g, 5, 5);
+            DrawStone(g, 6, 5);
         }
     }
 }
