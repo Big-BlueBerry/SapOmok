@@ -50,14 +50,16 @@ namespace SapOmok
         //마우스 입력받기
         private void panel1_MouseDown(object sender, MouseEventArgs e)
         {
-            Graphics g = panel1.CreateGraphics();          
+            Graphics g = panel1.CreateGraphics();   
+            
             int x, y;
             x = e.X / DSize;
             y = e.Y / DSize;
 
-            FirstShow();
+
+            
             DrawStone(g, x, y);
-            omok.SetStone(x, y,out bool c);
+            omok.SetStone(x, y,out bool c);           
             ShowWhoTurn();
         }
 
@@ -72,12 +74,6 @@ namespace SapOmok
                 g.FillEllipse(Bbrush, r);
         }
 
-        //현재 차례 표시
-        private void ShowWhoTurn()
-        {
-            label1.Text = ("현재 차례\n" + omok.color);
-        }
-
         //오델로용 첨뜨는 돌 4개
         public void FirstShow()
         {
@@ -90,7 +86,14 @@ namespace SapOmok
             DrawStone(g, 5, 5);
             omok.color = Stone.Black;
             DrawStone(g, 6, 5);
-            omok.color = Stone.White;
         }
+
+        //현재 차례 표시
+        private void ShowWhoTurn()
+        {
+            label1.Text = ("현재 차례\n" + omok.color);
+        }
+
+        
     }
 }
