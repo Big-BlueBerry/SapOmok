@@ -33,7 +33,6 @@ namespace SapOmok
         {
             ShowWhoTurn();
             OnDraw();
-            FirstShow();
         }      
 
         //선 그리기
@@ -55,37 +54,22 @@ namespace SapOmok
             int x, y;
             x = e.X / DSize;
             y = e.Y / DSize;
-
-
-            
-            DrawStone(g, x, y);
-            omok.SetStone(x, y,out bool c);           
+           
+            omok.SetStone(x, y,out bool c);
+            if (c == false)
+                DrawStone(g, x, y);          
             ShowWhoTurn();
         }
 
         //돌그리기
-        private void DrawStone(Graphics g, int x, int y)
+        public void DrawStone(Graphics g, int x, int y)
         {
             Rectangle r = new Rectangle(15 + DSize * x - stoneSize / 2, 15 + DSize * y - stoneSize / 2, stoneSize, stoneSize);
 
-            if (omok.color == Stone.White)
+            if (omok.color == Stone.Black)
                 g.FillEllipse(Wbrush, r);
             else
                 g.FillEllipse(Bbrush, r);
-        }
-
-        //오델로용 첨뜨는 돌 4개
-        public void FirstShow()
-        {
-            Graphics g = panel1.CreateGraphics();
-
-            DrawStone(g, 5, 6);
-            omok.color = Stone.Black;
-            DrawStone(g, 6, 6);
-            omok.color = Stone.White;
-            DrawStone(g, 5, 5);
-            omok.color = Stone.Black;
-            DrawStone(g, 6, 5);
         }
 
         //현재 차례 표시
@@ -93,7 +77,5 @@ namespace SapOmok
         {
             label1.Text = ("현재 차례\n" + omok.color);
         }
-
-        
     }
 }

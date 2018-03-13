@@ -9,13 +9,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using SapOmok;
+using OOmok;
 
 namespace SapOmok
 {
     public class Odelo
     {
-        public Stone color = Stone.White;
-
+        public Stone color = Stone.Black;
         public Stone[,] board = new Stone[15, 15];
 
         public bool IsOutside(int x, int y)
@@ -23,13 +23,17 @@ namespace SapOmok
             return x < 0 || y < 0 || x >= board.Length || y >= board.GetLength(1);
         }
 
+        /// <summary>
+        /// 하스스톤 말고 셋스톤~~
+        /// </summary>
+        /// <returns>이기면 true 아니면 false</returns>
         public bool SetStone(int x, int y, out bool cannot)
         {
             if (board[x, y] != Stone.None)
             {
                 cannot = true; return false;
             }
-            cannot = false;
+            else cannot = false;
 
             board[x, y] = color;
 
@@ -40,7 +44,7 @@ namespace SapOmok
             {
                 if (IsOutside(x, y - i) || board[x, y - i] != color)
                 {
-                    width += i - 1;
+                    board[x, y - i] = color;
                     break;
                 }
             }
@@ -115,10 +119,7 @@ namespace SapOmok
                 }
             }
 
-            if (width >= 4 || height >= 4 || diagl >= 4 || diagr >= 4)
-            {
-                IsWin();
-            }
+            //색 바꾸기
 
             if (color == Stone.Black)
                 color = Stone.White;
