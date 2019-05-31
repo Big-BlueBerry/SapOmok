@@ -9,7 +9,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using SapOmok;
-using OOmok;
 
 namespace SapOmok
 {
@@ -33,7 +32,7 @@ namespace SapOmok
             {
                 cannot = true; return false;
             }
-            else cannot = false;
+            cannot = false;
 
             board[x, y] = color;
 
@@ -44,7 +43,7 @@ namespace SapOmok
             {
                 if (IsOutside(x, y - i) || board[x, y - i] != color)
                 {
-                    board[x, y - i] = color;
+                    width += i - 1;
                     break;
                 }
             }
@@ -119,7 +118,10 @@ namespace SapOmok
                 }
             }
 
-            //색 바꾸기
+            if (width >= 4 || height >= 4 || diagl >= 4 || diagr >= 4)
+            {
+                IsWin();
+            }
 
             if (color == Stone.Black)
                 color = Stone.White;
@@ -127,6 +129,26 @@ namespace SapOmok
                 color = Stone.Black;
 
             return true;
+        }
+
+        private void ShowFristStone()
+        {
+            Form1 form = new Form1();
+            Graphics g = form.panel1.CreateGraphics();
+
+            color = Stone.Black;
+            SetStone(7, 4, out bool a);
+            form.DrawStone(g, 7, 4);
+            color = Stone.White;
+            SetStone(8, 4, out bool d);
+            form.DrawStone(g, 8, 4);
+            color = Stone.Black;
+            SetStone(8, 5, out bool b);
+            form.DrawStone(g, 8, 5);
+            color = Stone.White;
+            SetStone(7, 5, out bool c);
+            form.DrawStone(g, 7, 5);
+            color = Stone.Black;
         }
 
         public void IsWin()

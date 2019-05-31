@@ -18,8 +18,8 @@ namespace SapOmok
         private int DSize = 30;
         private Pen pen;
         private Brush Bbrush, Wbrush;
-        //public Omok omok = new Omok();
-        public Odelo omok = new Odelo();
+        public Omok omok = new Omok();
+        //public Odelo omok = new Odelo();
 
         public Form1()
         {
@@ -31,19 +31,18 @@ namespace SapOmok
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            ShowWhoTurn();
             OnDraw();
         }      
 
         //선 그리기
         private void OnDraw()
         {
+            ShowWhoTurn();
             Graphics g = panel1.CreateGraphics();
             for (int i = 0; i < 50; i++)//가로
                 g.DrawLine(pen, 0,  i * DSize, 420,  i * DSize);
             for (int i = 0; i < 15; i++)//세로
                 g.DrawLine(pen, i * DSize, 0, i * DSize, 1000 + 10 * DSize);
-            ShowWhoTurn();
         }
 
         //마우스 입력받기
@@ -54,11 +53,12 @@ namespace SapOmok
             int x, y;
             x = e.X / DSize;
             y = e.Y / DSize;
-           
+
+
+            ShowWhoTurn();
             omok.SetStone(x, y,out bool c);
             if (c == false)
-                DrawStone(g, x, y);          
-            ShowWhoTurn();
+                DrawStone(g, x, y); 
         }
 
         //돌그리기
@@ -66,10 +66,13 @@ namespace SapOmok
         {
             Rectangle r = new Rectangle(15 + DSize * x - stoneSize / 2, 15 + DSize * y - stoneSize / 2, stoneSize, stoneSize);
 
-            if (omok.color == Stone.Black)
+            if (omok.color == Stone.White)
                 g.FillEllipse(Wbrush, r);
             else
                 g.FillEllipse(Bbrush, r);
+
+            omok.ChangeColor();
+            ShowWhoTurn();
         }
 
         //현재 차례 표시

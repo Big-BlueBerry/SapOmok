@@ -8,3 +8,13 @@ C:\Users\dsm2017\source\repos\SapOmok\SapOmok\obj\Debug\SapOmok.csproj.GenerateR
 C:\Users\dsm2017\source\repos\SapOmok\SapOmok\obj\Debug\SapOmok.csproj.CoreCompileInputs.cache
 C:\Users\dsm2017\source\repos\SapOmok\SapOmok\obj\Debug\SapOmok.exe
 C:\Users\dsm2017\source\repos\SapOmok\SapOmok\obj\Debug\SapOmok.pdb
+D:\왜가리\SapOmok\SapOmok\bin\Debug\SapOmok.exe.config
+D:\왜가리\SapOmok\SapOmok\bin\Debug\SapOmok.exe
+D:\왜가리\SapOmok\SapOmok\bin\Debug\SapOmok.pdb
+D:\왜가리\SapOmok\SapOmok\obj\Debug\SapOmok.csprojAssemblyReference.cache
+D:\왜가리\SapOmok\SapOmok\obj\Debug\SapOmok.Form1.resources
+D:\왜가리\SapOmok\SapOmok\obj\Debug\SapOmok.Properties.Resources.resources
+D:\왜가리\SapOmok\SapOmok\obj\Debug\SapOmok.csproj.GenerateResource.cache
+D:\왜가리\SapOmok\SapOmok\obj\Debug\SapOmok.csproj.CoreCompileInputs.cache
+D:\왜가리\SapOmok\SapOmok\obj\Debug\SapOmok.exe
+D:\왜가리\SapOmok\SapOmok\obj\Debug\SapOmok.pdb
