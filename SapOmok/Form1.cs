@@ -19,7 +19,6 @@ namespace SapOmok
         private Pen pen;
         private Brush Bbrush, Wbrush;
         public Omok omok = new Omok();
-        //public Odelo omok = new Odelo();
 
         public Form1()
         {
@@ -35,7 +34,7 @@ namespace SapOmok
         }      
 
         //선 그리기
-        private void OnDraw()
+        private void OnDraw()   
         {
             ShowWhoTurn();
             Graphics g = panel1.CreateGraphics();
