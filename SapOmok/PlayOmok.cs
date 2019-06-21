@@ -4,12 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OOmok
+namespace SapOmok
 {
-    public enum Stone
+    class PlayOmok
     {
-        None,
-        Black,
-        White
     }
 }
