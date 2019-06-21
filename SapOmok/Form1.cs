@@ -8,8 +8,7 @@ namespace SapOmok {
         private Pen pen;
         private Brush Bbrush, Wbrush;
 
-        public IGame game = new Omok();
-        //public Odelo omok = new Odelo();
+        private IGame game = new Omok();
 
         public Form1() {
             InitializeComponent();
@@ -22,9 +21,8 @@ namespace SapOmok {
             OnDraw();
         }
 
-        //선 그리기
         private void OnDraw() {
-            ShowWhoTurn();
+            ShowWhoseTurn();
             Graphics g = panel1.CreateGraphics();
             for (int i = 0; i < 50; i++) //가로
                 g.DrawLine(pen, 0, i * DSize, 420, i * DSize);
@@ -32,7 +30,6 @@ namespace SapOmok {
                 g.DrawLine(pen, i * DSize, 0, i * DSize, 1000 + 10 * DSize);
         }
 
-        //마우스 입력받기
         private void panel1_MouseDown(object sender, MouseEventArgs e) {
             Graphics g = panel1.CreateGraphics();
 
@@ -40,28 +37,31 @@ namespace SapOmok {
             x = e.X / DSize;
             y = e.Y / DSize;
 
-
-            ShowWhoTurn();
-            game.SetStone(x, y, out bool c);
-            if (c == false)
+            var turn = game.CurrentTurn;
+            ShowWhoseTurn();
+            var isEnded = game.SetStone(x, y, out bool cannot);
+            if (cannot == false) {
                 DrawStone(g, x, y);
+            }
+            if (isEnded) {
+                MessageBox.Show("추카추카~!!~!\"" + turn + "\"WIN~!~!!", "호고고곡 게임이 끝나 부럿눼~!!");
+                Application.Restart();
+            }
         }
 
-        //돌그리기
         public void DrawStone(Graphics g, int x, int y) {
             Rectangle r = new Rectangle(15 + DSize * x - stoneSize / 2, 15 + DSize * y - stoneSize / 2, stoneSize,
                 stoneSize);
 
-            if (game.CurrentRole == Stone.White)
+            if (game.CurrentTurn == Stone.White)
                 g.FillEllipse(Wbrush, r);
             else
                 g.FillEllipse(Bbrush, r);
-            ShowWhoTurn();
+            ShowWhoseTurn();
         }
 
-        //현재 차례 표시
-        private void ShowWhoTurn() {
-            label1.Text = ("현재 차례\n" + game.CurrentRole);
+        private void ShowWhoseTurn() {
+            label1.Text = "현재 차례\n" + game.CurrentTurn;
         }
     }
 }

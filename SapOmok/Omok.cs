@@ -2,10 +2,10 @@
 
 namespace SapOmok {
     public class Omok : IGame {
-        public Stone CurrentRole { get; private set; }
-        public Stone[,] board = new Stone[15, 15];
+        public Stone CurrentTurn { get; private set; }
+        private Stone[,] board = new Stone[15, 15];
 
-        public bool IsOutside(int x, int y) {
+        private bool IsOutside(int x, int y) {
             return x < 0 || y < 0 || x >= board.Length || y >= board.GetLength(1);
         }
 
@@ -21,13 +21,13 @@ namespace SapOmok {
             else
                 cannot = false;
 
-            board[x, y] = CurrentRole;
+            board[x, y] = CurrentTurn;
 
             int width = 0, height = 0, diagl = 0, diagr = 0;
 
             // 왼쪽
             for (int i = 1; true; i++) {
-                if (IsOutside(x, y - i) || board[x, y - i] != CurrentRole) {
+                if (IsOutside(x, y - i) || board[x, y - i] != CurrentTurn) {
                     width += i - 1;
                     break;
                 }
@@ -35,7 +35,7 @@ namespace SapOmok {
 
             // 오른쪽
             for (int i = 1; true; i++) {
-                if (IsOutside(x, y + i) || board[x, y + i] != CurrentRole) {
+                if (IsOutside(x, y + i) || board[x, y + i] != CurrentTurn) {
                     width += i - 1;
                     break;
                 }
@@ -43,7 +43,7 @@ namespace SapOmok {
 
             //위
             for (int i = 1; true; i++) {
-                if (IsOutside(x + i, y) || board[x + i, y] != CurrentRole) {
+                if (IsOutside(x + i, y) || board[x + i, y] != CurrentTurn) {
                     height += i - 1;
                     break;
                 }
@@ -51,7 +51,7 @@ namespace SapOmok {
 
             //아래
             for (int i = 1; true; i++) {
-                if (IsOutside(x - i, y) || board[x - i, y] != CurrentRole) {
+                if (IsOutside(x - i, y) || board[x - i, y] != CurrentTurn) {
                     height += i - 1;
                     break;
                 }
@@ -59,7 +59,7 @@ namespace SapOmok {
 
             //제2사분면 대각선
             for (int i = 1; true; i++) {
-                if (IsOutside(x + i, y - i) || board[x + i, y - i] != CurrentRole) {
+                if (IsOutside(x + i, y - i) || board[x + i, y - i] != CurrentTurn) {
                     diagr += i - 1;
                     break;
                 }
@@ -67,7 +67,7 @@ namespace SapOmok {
 
             //제3사분면 대각선
             for (int i = 1; true; i++) {
-                if (IsOutside(x - i, y - i) || board[x - i, y - i] != CurrentRole) {
+                if (IsOutside(x - i, y - i) || board[x - i, y - i] != CurrentTurn) {
                     diagl += i - 1;
                     break;
                 }
@@ -75,7 +75,7 @@ namespace SapOmok {
 
             //제1사분면 대각선
             for (int i = 1; true; i++) {
-                if (IsOutside(x + i, y + i) || board[x + i, y + i] != CurrentRole) {
+                if (IsOutside(x + i, y + i) || board[x + i, y + i] != CurrentTurn) {
                     diagr += i - 1;
                     break;
                 }
@@ -83,30 +83,21 @@ namespace SapOmok {
 
             //제4사분면 대각선
             for (int i = 1; true; i++) {
-                if (IsOutside(x - i, y + i) || board[x - i, y + i] != CurrentRole) {
+                if (IsOutside(x - i, y + i) || board[x - i, y + i] != CurrentTurn) {
                     diagl += i - 1;
                     break;
                 }
             }
 
-            if (width >= 4 || height >= 4 || diagl >= 4 || diagr >= 4) {
-                IsWin();
-            }
             ChangeColor();
-
-            return true;
+            return width >= 4 || height >= 4 || diagl >= 4 || diagr >= 4;
         }
 
-        public void ChangeColor() {
-            if (CurrentRole == Stone.Black)
-                CurrentRole = Stone.White;
+        private void ChangeColor() {
+            if (CurrentTurn == Stone.Black)
+                CurrentTurn = Stone.White;
             else
-                CurrentRole = Stone.Black;
-        }
-
-        public void IsWin() {
-            MessageBox.Show("추카추카~!!~!\"" + CurrentRole + "\"WIN~!~!!", "호고고곡 게임이 끝나 부럿눼~!!");
-            Application.Restart();
+                CurrentTurn = Stone.Black;
         }
     }
 }

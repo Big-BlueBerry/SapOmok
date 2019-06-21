@@ -1,6 +1,6 @@
 namespace SapOmok {
     public interface IGame {
-        Stone CurrentRole { get; }
+        Stone CurrentTurn { get; }
         bool SetStone(int x, int y, out bool cannot);
     }
 }
