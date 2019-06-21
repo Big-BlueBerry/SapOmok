@@ -8,7 +8,7 @@ namespace SapOmok {
         private Pen pen;
         private Brush Bbrush, Wbrush;
 
-        public Omok omok = new Omok();
+        public IGame game = new Omok();
         //public Odelo omok = new Odelo();
 
         public Form1() {
@@ -42,7 +42,7 @@ namespace SapOmok {
 
 
             ShowWhoTurn();
-            omok.SetStone(x, y, out bool c);
+            game.SetStone(x, y, out bool c);
             if (c == false)
                 DrawStone(g, x, y);
         }
@@ -52,18 +52,16 @@ namespace SapOmok {
             Rectangle r = new Rectangle(15 + DSize * x - stoneSize / 2, 15 + DSize * y - stoneSize / 2, stoneSize,
                 stoneSize);
 
-            if (omok.color == Stone.White)
+            if (game.CurrentRole == Stone.White)
                 g.FillEllipse(Wbrush, r);
             else
                 g.FillEllipse(Bbrush, r);
-
-            omok.ChangeColor();
             ShowWhoTurn();
         }
 
         //현재 차례 표시
         private void ShowWhoTurn() {
-            label1.Text = ("현재 차례\n" + omok.color);
+            label1.Text = ("현재 차례\n" + game.CurrentRole);
         }
     }
 }
