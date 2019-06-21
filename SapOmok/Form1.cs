@@ -5,6 +5,7 @@ namespace SapOmok {
     public partial class Form1 : Form {
         private int stoneSize = 28;
         private int DSize = 30;
+        private Graphics g;
         private Pen pen;
         private Brush Bbrush, Wbrush;
 
@@ -15,6 +16,7 @@ namespace SapOmok {
             pen = new Pen(Color.Black);
             Wbrush = new SolidBrush(Color.White);
             Bbrush = new SolidBrush(Color.Black);
+            g = panel1.CreateGraphics();
         }
 
         protected override void OnPaint(PaintEventArgs e) {
@@ -23,7 +25,6 @@ namespace SapOmok {
 
         private void OnDraw() {
             ShowWhoseTurn();
-            Graphics g = panel1.CreateGraphics();
             for (int i = 0; i < 50; i++) //가로
                 g.DrawLine(pen, 0, i * DSize, 420, i * DSize);
             for (int i = 0; i < 15; i++) //세로
@@ -31,8 +32,6 @@ namespace SapOmok {
         }
 
         private void panel1_MouseDown(object sender, MouseEventArgs e) {
-            Graphics g = panel1.CreateGraphics();
-
             int x, y;
             x = e.X / DSize;
             y = e.Y / DSize;
@@ -41,15 +40,15 @@ namespace SapOmok {
             ShowWhoseTurn();
             var isEnded = game.SetStone(x, y, out bool cannot);
             if (cannot == false) {
-                DrawStone(g, x, y);
+                DrawStone(x, y);
             }
             if (isEnded) {
-                MessageBox.Show("추카추카~!!~!\"" + turn + "\"WIN~!~!!", "호고고곡 게임이 끝나 부럿눼~!!");
+                MessageBox.Show($"추카추카~!!~!\"{turn}\"WIN~!~!!", "호고고곡 게임이 끝나 부럿눼~!!");
                 Application.Restart();
             }
         }
 
-        public void DrawStone(Graphics g, int x, int y) {
+        public void DrawStone(int x, int y) {
             Rectangle r = new Rectangle(15 + DSize * x - stoneSize / 2, 15 + DSize * y - stoneSize / 2, stoneSize,
                 stoneSize);
 
@@ -61,7 +60,7 @@ namespace SapOmok {
         }
 
         private void ShowWhoseTurn() {
-            label1.Text = "현재 차례\n" + game.CurrentTurn;
+            label1.Text = $"현재 차례\n{game.CurrentTurn}";
         }
     }
 }

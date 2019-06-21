@@ -95,22 +95,7 @@ namespace SapOmok {
         }
 
         private void ShowFristStone() {
-            Form1 form = new Form1();
-            Graphics g = form.panel1.CreateGraphics();
-
-            CurrentTurn = Stone.Black;
-            SetStone(7, 4, out bool a);
-            form.DrawStone(g, 7, 4);
-            CurrentTurn = Stone.White;
-            SetStone(8, 4, out bool d);
-            form.DrawStone(g, 8, 4);
-            CurrentTurn = Stone.Black;
-            SetStone(8, 5, out bool b);
-            form.DrawStone(g, 8, 5);
-            CurrentTurn = Stone.White;
-            SetStone(7, 5, out bool c);
-            form.DrawStone(g, 7, 5);
-            CurrentTurn = Stone.Black;
+            // 이건..생성자에 넣든지 알아서 구현하숑^^..
         }
     }
 }
