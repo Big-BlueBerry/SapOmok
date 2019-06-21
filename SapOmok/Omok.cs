@@ -1,135 +1,102 @@
-﻿using OOmok;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SapOmok
 {
-    public class Omok
+    class Omok
     {
-        public Stone color = Stone.White;
-        public Stone[,] board = new Stone[15, 15];
+        public static Status color = Status.Black;
+        public Status[,] board = new Status[15, 15];
+        public enum Status
+        {
+            None,
+            Black,
+            White
+        }
 
-        public bool IsOutside(int x, int y)
+        private bool IsOutside(int x, int y)
         {
             return x < 0 || y < 0 || x >= board.Length || y >= board.GetLength(1);
         }
 
-        /// <summary>
-        /// 하스스톤 말고 셋스톤~~
-        /// </summary>
-        /// <returns>이기면 true 아니면 false</returns>
-        public bool SetStone(int x, int y, out bool cannot)
+        public bool CanPut(int x, int y, out bool cantput)
         {
-            if (board[x, y] != Stone.None)
+            if (board[x, y] != Status.None)
             {
-                cannot = true; return true;
+                cantput = true;
+                return cantput;
             }
-            else
-                cannot = false;
+            else cantput = false;
 
             board[x, y] = color;
 
-            int width = 0, height = 0, diagl = 0, diagr = 0;
+            SetStone(x, y);
 
-            // 왼쪽
-            for (int i = 1; true; i++)
+            return cantput;
+        }
+
+        struct Vector2
+        {
+            public readonly int X, Y;
+
+            public Vector2(int X, int Y)
             {
-                if (IsOutside(x, y - i) || board[x, y - i] != color)
-                {
-                    width += i - 1;
-                    break;
-                }
+                this.X = X;
+                this.Y = Y;
             }
 
-            // 오른쪽
-            for (int i = 1; true; i++)
-            {
-                if (IsOutside(x, y + i) || board[x, y + i] != color)
-                {
-                    width += i - 1;
-                    break;
-                }
-            }
+            public static Vector2 Up = new Vector2(0, 1);
+            public static Vector2 Down = new Vector2(0, -1);
+            public static Vector2 Left = new Vector2(-1, 0);
+            public static Vector2 Right = new Vector2(1, 0);
+            public static Vector2 UpAndRight = new Vector2(1, 1);
+            public static Vector2 UpAndLeft = new Vector2(-1, 1);
+            public static Vector2 DownAndRight = new Vector2(1, -1);
+            public static Vector2 DownAndLeft = new Vector2(-1, -1);
+        }
 
-            //위
+        private int CountStone(ref Vector2 now, ref Vector2 direction)
+        {
             for (int i = 1; true; i++)
             {
-                if (IsOutside(x + i, y) || board[x + i, y] != color)
+                if (IsOutside(now.X + direction.X * i, now.Y - direction.Y * i)
+                    || board[now.X + direction.X * i, now.Y - direction.Y * i] != color)
                 {
-                    height += i - 1;
-                    break;
+                    return i - 1;
                 }
             }
+        }
 
-            //아래
-            for (int i = 1; true; i++)
-            {
-                if (IsOutside(x - i, y) || board[x - i, y] != color)
-                {
-                    height += i - 1;
-                    break;
-                }
-            }
+        public void SetStone(int x, int y)
+        {
+            Vector2 now = new Vector2(x, y);
 
-            //제2사분면 대각선
-            for (int i = 1; true; i++)
-            {
-                if (IsOutside(x + i, y - i) || board[x + i, y - i] != color)
-                {
-                    diagr += i - 1;
-                    break;
-                }
-            }
-
-            //제3사분면 대각선
-            for (int i = 1; true; i++)
-            {
-                if (IsOutside(x - i, y - i) || board[x - i, y - i] != color)
-                {
-                    diagl += i - 1;
-                    break;
-                }
-            }
-
-            //제1사분면 대각선
-            for (int i = 1; true; i++)
-            {
-                if (IsOutside(x + i, y + i) || board[x + i, y + i] != color)
-                {
-                    diagr += i - 1;
-                    break;
-                }
-            }
-
-            //제4사분면 대각선
-            for (int i = 1; true; i++)
-            {
-                if (IsOutside(x - i, y + i) || board[x - i, y + i] != color)
-                {
-                    diagl += i - 1;
-                    break;
-                }
-            }
+            int width = CountStone(ref now, ref Vector2.Left) + CountStone(ref now, ref Vector2.Right),
+                height = CountStone(ref now, ref Vector2.Up) + CountStone(ref now, ref Vector2.Down),
+                diagl = CountStone(ref now, ref Vector2.UpAndLeft) + CountStone(ref now, ref Vector2.DownAndRight),
+                diagr = CountStone(ref now, ref Vector2.UpAndRight) + CountStone(ref now, ref Vector2.DownAndLeft);
 
             if (width >= 4 || height >= 4 || diagl >= 4 || diagr >= 4)
-            {
                 IsWin();
-            }
-
-            return true;
         }
 
-        public void ChangeColor()
+        public static void ChangeColor()
         {
-            if (color == Stone.Black)
-                color = Stone.White;
+            if (color == Status.Black)
+                color = Status.White;
             else
-                color = Stone.Black;
+                color = Status.Black;
         }
 
-        public void IsWin()
+        private void IsWin()
         {
-            MessageBox.Show("추카추카~!!~!\"" + color + "\"WIN~!~!!","호고고곡 게임이 끝나 부럿눼~!!");
+            MessageBox.Show("추카추카~!!~!\"" + color + "\"WIN~!~!!", "호고고곡 게임이 끝나 부럿눼~!!");
             Application.Restart();
         }
+
     }
 }
